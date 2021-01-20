@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
+import Contributor from "./pages/Contributor";
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar/index";
+import Details from "./pages/Details";
+import NotFound from "./pages/NotFound";
+import Sidebar from "../src/components/Sidebar/index";
+import "./tailwind.output.css";
 
-function App() {
+const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Sidebar isOpen={isOpen} toggle={toggle} />
+      <Navbar toggle={toggle} />
+      <Switch>
+        <Route path="/404" component={NotFound} />
+        <Route path="/" exact component={Home} />
+        <Route path="/contributor" component={Contributor} />
+        <Route path="/user-detail/:id" component={Details} />
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
